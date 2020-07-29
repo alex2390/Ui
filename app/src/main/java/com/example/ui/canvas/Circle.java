@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Path;
+import android.graphics.RectF;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
@@ -42,18 +44,22 @@ public class Circle extends View {
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        paint.setAntiAlias(true);
         paint.setColor(getResources().getColor(R.color.colorAccent));
-        paint.setStyle(Paint.Style.STROKE);
+        paint.setStyle(Paint.Style.FILL);
+        Path path = new Path();
 
 
+        RectF rectOne = new RectF(200, 200, 400, 400);
+        RectF rectTwo = new RectF(400, 200, 600, 400);
+        path.addArc(rectOne,180,180);
+        path.arcTo(rectTwo,180,180,false);
+//        path.lineTo(400,550);
 
-        canvas.drawRect(100,100,500,500,paint);
-
-
+        canvas.drawPath(path, paint); // 绘制出 path 描述的图形（心形），大功告成
 
     }
 
