@@ -15,6 +15,9 @@ import androidx.annotation.RequiresApi;
 
 import com.example.ui.R;
 
+import static android.graphics.Path.Direction.CCW;
+import static android.graphics.Path.Direction.CW;
+
 /**
  * Des :
  * <p>
@@ -49,15 +52,14 @@ public class Circle extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         paint.setColor(getResources().getColor(R.color.colorAccent));
-        paint.setStyle(Paint.Style.FILL);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(10);
         Path path = new Path();
 
+        path.lineTo(100, 100);
+        path.arcTo(100, 100, 300, 300, -90, 90, false);
 
-        RectF rectOne = new RectF(200, 200, 400, 400);
-        RectF rectTwo = new RectF(400, 200, 600, 400);
-        path.addArc(rectOne,180,180);
-        path.arcTo(rectTwo,180,180,false);
-//        path.lineTo(400,550);
+
 
         canvas.drawPath(path, paint); // 绘制出 path 描述的图形（心形），大功告成
 
