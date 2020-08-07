@@ -24,7 +24,7 @@ import java.util.Random;
 public class PieView extends View {
 
     private String[] titles = {"kotlin", "java", "object-c", "go", "php"};
-    private int[] percentages = {1, 5, 2, 3, 3};
+    private int[] percentages = {50, 90, 40, 90, 90};
     private int[] colors = {0xff000000, 0xffff0000, 0xffffff00, 0xffffff00, 0xffffffff};
 
     private Paint mPaint = null;
@@ -45,8 +45,6 @@ public class PieView extends View {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public PieView(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-
-
     }
 
     @Override
@@ -54,16 +52,27 @@ public class PieView extends View {
         super.onDraw(canvas);
 
         mPaint = new Paint();
-        mPaint.setAntiAlias(false);
+        mPaint.setAntiAlias(true);
         RectF rectF = new RectF(100, 100, 500, 500);
-        for (int percent :
-                percentages) {
+        for (int i = 0; i < percentages.length; i++) {
             mPaint.setColor(getRandomColor());
-            canvas.drawArc(rectF, 90, getPercent(percent), true, mPaint);
-
+            canvas.drawArc(rectF, getStartAngle(i), percentages[i], true, mPaint);
         }
 
     }
+
+
+    private int getStartAngle(int index) {
+        int start = 0;
+        for (int i = 0; i < index; i++) {
+            start = start + percentages[i];
+
+        }
+
+        return start;
+
+    }
+
 
     private int getRandomColor() {
         Random random = new Random();
@@ -76,12 +85,11 @@ public class PieView extends View {
 
     private int getPercent(int pers) {
         int sum = 0;
-        for (int per : percentages
-        ) {
+        for (int per : percentages) {
             sum = sum + per;
 
         }
-        int color = 360 * (pers * 100 / sum) / 100;
+        int color = 360 * ((pers * 100) / sum) / 100;
         Log.d(TAG, "getPercent: ");
 
         return color;
